@@ -2,7 +2,6 @@
 Serializers for the user API View.
 """
 
-from attr import attr
 from django.contrib.auth import (
     get_user_model,
     authenticate,
