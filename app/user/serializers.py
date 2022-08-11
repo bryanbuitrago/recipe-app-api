@@ -2,7 +2,6 @@
 Serializers for the user API View.
 """
 
-import email
 from attr import attr
 from django.contrib.auth import (
     get_user_model,
@@ -11,7 +10,6 @@ from django.contrib.auth import (
 from django.utils.translation import gettext as _
 
 from rest_framework import serializers
-from yaml import serialize
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validate_data):
+        """Update and return user."""
         password = validate_data.pop('password', None)
         user = super().update(instance, validate_data)
 
