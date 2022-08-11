@@ -98,7 +98,7 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_email_not_found(self):
         """Test error returned if user not found for given email."""
-        payload = {'email', : 'test@example.com', 'password': 'pass123'}
+        payload = {'email': 'test@example.com', 'password': 'pass123'}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
