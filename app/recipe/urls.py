@@ -2,8 +2,6 @@
 URL mappings for the recipe app.
 """
 
-from importlib.resources import path
-from xml.etree.ElementInclude import include
 from django.urls import (
     path,
     include,
