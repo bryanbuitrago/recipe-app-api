@@ -64,7 +64,7 @@ class PrivateRecipeApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(email='user@example.com', password='test1')
+        self.user = create_user(email='user@example.com', password='test123')
         self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
@@ -146,8 +146,8 @@ class PrivateRecipeApiTests(TestCase):
         )
         payload = {
             'title': 'New recipe title',
-            'link': 'https://example.com/new-recipe-.pdf',
-            'description': 'New Recipe Description',
+            'link': 'https://example.com/new-recipe.pdf',
+            'description': 'New recipe description',
             'time_minutes': 10,
             'price': Decimal('2.50'),
         }
@@ -157,12 +157,12 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         recipe.refresh_from_db()
         for k, v in payload.items():
-            self.assertAlmostEqual(getattr(recipe, k), v)
+            self.assertEqual(getattr(recipe, k), v)
         self.assertEqual(recipe.user, self.user)
 
     def test_update_user_returns_error(self):
         """Test changing the recipe user results in an error."""
-        new_user = create_user(email='user@example.com', password='test123')
+        new_user = create_user(email='user2@example.com', password='test123')
         recipe = create_recipe(user=self.user)
 
         payload = {'user': new_user.id}
@@ -173,7 +173,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(recipe.user, self.user)
 
     def test_delete_recipe(self):
-        """Test deleting a recipe sucessful."""
+        """Test deleting a recipe successful."""
         recipe = create_recipe(user=self.user)
 
         url = detail_url(recipe.id)
