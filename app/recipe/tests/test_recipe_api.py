@@ -2,8 +2,6 @@
 Tests for recipe APIs.
 """
 from decimal import Decimal
-import email
-from webbrowser import get
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -11,7 +9,6 @@ from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.test import APIClient
-from app.user.tests.test_user_api import create_user
 
 from core.models import Recipe
 
@@ -95,7 +92,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_get_recipe(self):
+    def test_get_recipe_detail(self):
         """Test get recipe detail."""
         recipe = create_recipe(user=self.user)
 
@@ -126,16 +123,16 @@ class PrivateRecipeApiTests(TestCase):
         recipe = create_recipe(
             user=self.user,
             title='Sample recipe title',
-            link=original_link
+            link=original_link,
         )
 
-        payload = {'title': 'New Recipe title'}
+        payload = {'title': 'New recipe title'}
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         recipe.refresh_from_db()
-        self.assertAlmostEqual(recipe.title, payload['title'])
+        self.assertEqual(recipe.title, payload['title'])
         self.assertEqual(recipe.link, original_link)
         self.assertEqual(recipe.user, self.user)
 
