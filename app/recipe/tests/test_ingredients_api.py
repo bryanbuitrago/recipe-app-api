@@ -1,6 +1,7 @@
 """Tests for the ingredients API."""
 
 
+from unicodedata import name
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
@@ -59,7 +60,7 @@ class PrivateIngredientApiTests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_ingredients_limited_to_user(self):
-        """Test lsit of ingredients is limited to authenticated user."""
+        """Test list of ingredients is limited to authenticated user."""
         user2 = create_user(email='user@exmaple.com')
         Ingredient.objects.create(user=user2, name='Salt')
         ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
