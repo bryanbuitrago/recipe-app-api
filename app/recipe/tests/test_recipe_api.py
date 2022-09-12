@@ -290,11 +290,10 @@ class PrivateRecipeApiTests(TestCase):
     def test_create_recipe_with_new_ingredients(self):
         """Test creating a recipe with new ingredients."""
         payload = {
-            'title': 'Thai Prawn Curry',
+            'title': 'Califlower Tacos',
             'time_minutes': 60,
-            'price': Decimal('3.50'),
-            'tags': [{'name': 'Thai'}, {'name': 'Dinner'}],
-            'ingredients': [{'name': 'Garlic'}, {'name': 'Curry'}],
+            'price': Decimal('4.30'),
+            'ingredients': [{'name': 'Cauliflower'}, {'name': 'Salt'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -315,11 +314,10 @@ class PrivateRecipeApiTests(TestCase):
         ingredient_turmeric = Ingredient.objects.create(
             user=self.user, name='Turmeric')
         payload = {
-            'title': 'Channa Massala',
-            'time_minutes': 70,
-            'price': Decimal('4.50'),
-            'tags': [{'name': 'Indian'}, {'name': 'Lunch'}],
-            'ingredients': [{'name': 'Turmeric'}, {'name': 'Curry'}]
+            'title': 'Vietnamese Soup',
+            'time_minutes': 25,
+            'price': Decimal('2.55'),
+            'ingredients': [{'name': 'Lemon'}, {'name': 'Fish Sauce'}]
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
