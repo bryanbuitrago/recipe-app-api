@@ -2,10 +2,6 @@
 Tests for recipe APIs.
 """
 from decimal import Decimal
-from genericpath import exists
-import json
-from logging.config import dictConfig
-from typing import Dict
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
