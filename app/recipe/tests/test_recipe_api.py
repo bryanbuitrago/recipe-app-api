@@ -311,8 +311,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_create_recipe_with_existing_ingredients(self):
         """Test creating a recipe with existing ingredients."""
-        ingredient_turmeric = Ingredient.objects.create(
-            user=self.user, name='Turmeric')
+        ingredient = Ingredient.objects.create(
+            user=self.user, name='Lemon')
         payload = {
             'title': 'Vietnamese Soup',
             'time_minutes': 25,
@@ -326,7 +326,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(recipes.count(), 1)
         recipe = recipes[0]
         self.assertEqual(recipe.ingredients.count(), 2)
-        self.assertIn(ingredient_turmeric, recipe.ingredients.all())
+        self.assertIn(ingredient, recipe.ingredients.all())
         for ingredient in payload['ingredients']:
             exists = recipe.ingredients.filter(
                 name=ingredient['name'],
