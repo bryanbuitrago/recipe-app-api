@@ -1,7 +1,5 @@
 """Tests for the ingredients API."""
 
-
-from unicodedata import name
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
@@ -32,7 +30,7 @@ class PublicIngredientsApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-    def set_auth_required(self):
+    def get_auth_required(self):
         """Test auth is required for retrieving ingredients."""
         res = self.client.get(INGREDIENTS_URL)
 
@@ -61,7 +59,7 @@ class PrivateIngredientApiTests(TestCase):
 
     def test_ingredients_limited_to_user(self):
         """Test list of ingredients is limited to authenticated user."""
-        user2 = create_user(email='user@exmaple.com')
+        user2 = create_user(email='user2@example.com')
         Ingredient.objects.create(user=user2, name='Salt')
         ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
 
@@ -85,12 +83,12 @@ class PrivateIngredientApiTests(TestCase):
         self.assertEqual(ingredient.name, payload['name'])
 
     def test_delete_ingredient(self):
-        """Test deleting an ingredient,"""
+        """Test deleting an ingredient."""
         ingredient = Ingredient.objects.create(user=self.user, name='Lettuce')
 
         url = detail_url(ingredient.id)
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
-        ingredient = Ingredient.objects.filter(user=self.user)
-        self.assertFalse(ingredient.exists())
+        ingredients = Ingredient.objects.filter(user=self.user)
+        self.assertFalse(ingredients.exists())
