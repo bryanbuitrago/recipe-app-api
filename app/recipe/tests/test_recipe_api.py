@@ -35,7 +35,7 @@ def detail_url(recipe_id):
 
 
 def image_upload_url(recipe_id):
-    """Create and retur nan image upload URL."""
+    """Create and return an image upload URL."""
     return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 
@@ -315,13 +315,12 @@ class PrivateRecipeApiTests(TestCase):
             self.assertTrue(exists)
 
     def test_create_recipe_with_existing_ingredient(self):
-        """Test creating a recipe with existing ingredient."""
-        ingredient = Ingredient.objects.create(
-            user=self.user, name='Lemon')
+        """Test creating a new recipe with existing ingredient."""
+        ingredient = Ingredient.objects.create(user=self.user, name='Lemon')
         payload = {
             'title': 'Vietnamese Soup',
             'time_minutes': 25,
-            'price': Decimal('2.55'),
+            'price': '2.55',
             'ingredients': [{'name': 'Lemon'}, {'name': 'Fish Sauce'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
