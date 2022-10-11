@@ -4,7 +4,6 @@ Tests for recipe APIs.
 from decimal import Decimal
 import tempfile
 import os
-from venv import create
 
 from PIL import Image
 
@@ -400,7 +399,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertIn(s2.data, res.data)
         self.assertNotIn(s3.data, res.data)
 
-    def test_filter_bu_ingredients(self):
+    def test_filter_by_ingredients(self):
         """Test filtering recipes by ingredients."""
         r1 = create_recipe(user=self.user, title='Posh Beans on Toast')
         r2 = create_recipe(user=self.user, title='Chicken Cacciatore')
