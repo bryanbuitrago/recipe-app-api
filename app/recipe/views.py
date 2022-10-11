@@ -2,7 +2,7 @@
 Views for the recipe APIs
 """
 
-from drf_spectacular.utils import (
+from drf_spectacular.utils import(
     extend_schema_view,
     extend_schema,
     OpenApiParameter,
@@ -56,15 +56,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Retrieve recipes for authenticated user."""
-        tags = self.request_query_params.get('tags')
+        tags = self.request.query_params.get('tags')
         ingredients = self.request.query_params.get('ingredients')
         queryset = self.queryset
         if tags:
-            tags_ids = self._params_to_ints(tags)
-            queryset = queryset.filter(tags_id_in=tags_ids)
+            tag_ids = self._params_to_ints(tags)
+            queryset = queryset.filter(tags_id_in=tag_ids)
         if ingredients:
-            ingredients_ids = self._params_to_ints(ingredients)
-            queryset = queryset.filter(ingredients_id_in=ingredients_ids)
+            ingredient_ids = self._params_to_ints(ingredients)
+            queryset = queryset.filter(ingredients_id_in=ingredient_ids)
 
         return queryset.filter(
             user=self.request.user
