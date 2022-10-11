@@ -116,3 +116,26 @@ class PrivateIngredientsApiTests(TestCase):
         s2 = IngredientSerializer(in2)
         self.assertIn(s1.data, res.data)
         self.assertNotIn(s2.data, res.data)
+
+    def test_filter_ingredient_unique(self):
+        """Test filtered ignredients returns a unique list."""
+        ing = Ingredient.objects.create(user=self.user, name='Eggs')
+        Ingredient.objects.create(user=self.user, name='Lnetils')
+        recipe1 = Recipe.objects.create(
+            title='Eggs Bennedict',
+            time_minutes=60,
+            price=Decimal('7.00'),
+            user=self.user,
+        )
+        recipe2 = Recipe.objects.create(
+            title='Herb Eggs',
+            time_minutes=20,
+            price=Decimal('4.00'),
+            user=self.user,
+        )
+        recipe1.ingredients.add(ing)
+        recipe2.ingredients.add(ing)
+
+        res = self.client.get(INGREDIENTS_URL, {'assigned_only': 1})
+
+        self.assertEqual(len(res.data), 1)
