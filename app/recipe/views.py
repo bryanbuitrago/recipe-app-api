@@ -38,7 +38,7 @@ from recipe import serializers
             OpenApiParameter(
                 'ingredients',
                 OpenApiTypes.STR,
-                description='Comma separated list of Ingredient IDs to filter',
+                description='Comma separated list of ingredient IDs to filter',
             ),
         ]
     )
@@ -80,7 +80,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        """Create a new recipe"""
+        """Create a new recipe."""
         serializer.save(user=self.request.user)
 
     @action(methods=['POST'], detail=True, url_path='upload-image')
