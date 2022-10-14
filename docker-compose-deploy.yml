@@ -26,16 +26,16 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=4{DB_PASS}
     
-    proxy:
-      build:
-        context: ./proxy
-      restart: always
-      depends_on:
-        - app
-      ports:
-       - 80:8000
-      volumes:
-        - static-data:/vol/static
+  proxy:
+    build:
+      context: ./proxy
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - 8000:8000
+    volumes:
+      - static-data:/vol/static
 
 volumes:
   postgres-data:
